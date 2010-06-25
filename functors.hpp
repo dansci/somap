@@ -27,16 +27,3 @@ public:
     return (*o1)(x) * (*o2)(x);
   }
 };
-
-class TFunctorProduct2 : public TFunctor {
-private:
-  double (*f1)(double);
-  double (*f2)(double);
-public:
-  TFunctorProduct2(double (*_f1)(double), double (*_f2)(double)) :
-    f1(_f1), f2(_f2) {}
-  virtual double operator() (double x)
-  {
-    return (*f1)(x) * (*f2)(x);
-  }
-};
