@@ -13,25 +13,36 @@ typedef std::pair<int,int> xypair;
 
 class somapnode {
 public:
-  somapnode(xypair pos, int len);
-  // update the node due to INPUT vector.  Needs to know if it was
-  // highest scorer, or neighbour (conveyed by DISTANCE).  I
-  // assumed the learning function is global visible.
-  void learn(weights input, int distance);
-  double compare(weights input);
+  // JARED: This offends my C sensibilities.  The next two members are
+  // to keep track of instantiations of this class.  I don't like them
+  // being members, because it makes it look like they're replicated
+  // for each instantiation.  Is this OK?
+  static int totalNodes;
+  static int idGen;
+  // JARED: You were previously opposed to passing in functions to
+  // each node.  Are you OK with it now?
+  somapnode(int _len, xypair _pos, somapFunctorBase *_comp, 
+	    somapFunctorBase *_corr) :
+    position(_pos), nodeID(idGen++), corrector(_corr), comparison(_comp)
+  { totalNodes++; }
+  // FIXME:  we need to pass the distance to CORRECT somehow.
+  score correct(weights);
+  score compare(weights);
   void setWeight(weights);
   weights getWeight();
   xypair getPosition();
-  // defined this to test if it initializes correctly
-  void printWeight();
+  int getNodeID();
 private:
-  // weights vector
+  const int nodeID;
   weights dataStore;
-  
-  // this node's position in the overall map
   xypair position;
-  
-  // IDs may be useful when looking for maximally excited node
-  int nodeID;
+  somapFunctorBase *corrector;
+  somapFunctorBase *comparator;
 };
+
+// JARED: if the static things were OK, is this the right place to set
+// them?
+int somapnode::totalNodes = 0;
+int somapnode::idGen = 0;
+
 #endif

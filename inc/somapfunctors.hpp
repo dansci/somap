@@ -3,79 +3,50 @@
 #include <somapnode.hpp>
 #include <cmath>
 
+// JARED: This is somewhat problematic-- The return type of the
+// correction and comparison functions isn't naturally going to be the
+// same (without our coercion).  But I need to keep them the same for
+// polymorphism.  We could make it a struct/pair with a member that
+// comparisons use, and another member for corrections.  Maybe there's
+// a less bloaty solution though?  Also, we'll need both functions to
+// take the full weights vector for the same (polymorphism) reason at
+// best-- we'll need a way to encode the distance for the correction
+// function without changing the number of arguments I think.  We
+// might be best off having 2 functor classes because of this mess.
+typedef double score;
+
 class somapFunctorBase {
-  public:
-    virtual ~somapFunctorBase();
+public:
+  virtual score operator() (weights w) = 0;
 };
 
-class somapComparisonFunctor : public somapFunctorBase {
-  public:
-    virtual double operator()(weights, weights) = 0;
-    virtual ~somapComparisonFunctor();
+class somapLinOpFunctor : public somapFunctorBase {
+private:
+  // Linear function: y = A * function( m*x ) + c
+  double (*function)(double);
+  double A, m, c;
+public:
+  somapLinOpFunctor(double (*_fn)(double), double _A, double _m,
+		    double _c): A(_A), m(_m), c(_c), function(_fn) {}
+  virtual double operator() (double x)
+  {
+    return A * (*function) ( m*x ) + c;
+  }
 };
 
-class temporalCorrectionFunctor : public somapFunctorBase {
-  protected:
-    double time_constant;
-  public:
-    virtual double operator()(double) = 0;
-    virtual ~temporalCorrectionFunctor();
+template <class T1, class T2> class somapFunctorProduct :
+  public somapFunctorBase {
+private:
+  // The two functors to be combined into a product
+  T1 *F1;
+  T2 *F2;
+public:
+  somapFunctorProduct(T2 *_F1, T2 *_F2) : F1(_F1), F2(_F2) {}
+  virtual double operator() (double x)
+  {
+    return (*F1)(x) * (*F2)(x);
+  }
 };
 
-class spatialCorrectionFunctor : public somapFunctorBase {
-  protected:
-    double attenuation_length;
-  public:
-    virtual double operator()(double) = 0;
-    virtual ~spatialCorrectionFunctor();
-};
-
-class somapCorrectionFunctor : public somapFunctorBase {
-  public:
-    virtual double operator()(double, double) = 0;
-    virtual ~somapCorrectionFunctor();
-};
-
-class cartesian_distance: public somapComparisonFunctor {
-  public:
-    virtual double operator()(weights, weights);
-    virtual ~cartesian_distance();
-};
-
-class linear_correction: public somapCorrectionFunctor {
-  private:
-    double strength;
-  public:
-    linear_correction(double);
-    virtual double operator()(double, double);
-    virtual ~linear_correction();
-};
-
-class space_step_function: public spatialCorrectionFunctor {
-  private:
-    double cutoff;
-  public:
-    space_step_function(double);
-    double operator()(double);
-    ~space_step_function();
-};
-
-class time_step_function: public temporalCorrectionFunctor {
-  private:
-    double cutoff;
-  public:
-    time_step_function(double);
-    double operator()(double);
-    ~time_step_function();
-};
-
-class correctionComposition: public somapFunctorBase {
-  private:
-    std::auto_ptr<temporalCorrectionFunctor> t;
-    std::auto_ptr<spatialCorrectionFunctor> s;
-  public:
-    correctionComposition(temporalCorrectionFunctor*, spatialCorrectionFunctor*);
-    virtual double operator()(double,double);
-};
 
 #endif
