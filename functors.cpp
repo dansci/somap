@@ -1,6 +1,8 @@
 #include "functors.hpp"
+#include "node.hpp"
 #include <iostream>
 #include <cmath>
+#include <stdlib.h>
 
 int main(int argc, char *argv[]) 
 {
@@ -8,18 +10,34 @@ int main(int argc, char *argv[])
   TFunctor *f1;
 
   // These are linear functors (fn, Amplitude, freq, intercept)
-  // i.e.  1 * sin(1 * x) + 0
   TLinOpFunctor sinFunctor(&std::sin, 1, 1, 0);
-  // and 1 * exp( -1 * x) + 0
   TLinOpFunctor expFunctor(&std::exp, 1, -1, 0);
 
   TFunctorProduct<TLinOpFunctor, TLinOpFunctor> 
     prodFunctor(&sinFunctor, &expFunctor);
-
-  // now we can evaluate it as if it were a TFunctor:
+  
   f1 = &prodFunctor;
-  std::cout << "prodFunctor(3.2) = sin(3.2)*exp(-3.2) = " 
-	    << (*f1)(3.2) << std::endl;
-							    
+  TFunctor *f2 = &expFunctor;
+
+  node n1(xypair(0, 0), f1, f2);
+  
+  double x = atof(argv[1]);
+  std::cout << "n1.f1() = " << n1.compare(x) << "\n" <<
+    "n1.f2() = " << n1.correct(x) << std::endl;
+  
+  std::cout << "node id of n1 is: " << n1.getNodeID() << 
+    " and total nodes is: " << node::totalNodes << std::endl;
+
+  node n2[9];
+  node *n4 = new node();
+  delete n4;
+
+  node n3(xypair(2, 1), f1, f2);
+
+  std::cout << "node id of n3 is: " << n3.getNodeID() << 
+    " and total nodes is: " << node::totalNodes << std::endl;
+
+    
+  
   return 0;
 }
