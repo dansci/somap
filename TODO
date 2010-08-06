@@ -3,3 +3,5 @@
 - Read through source code and extend this list
 
 - integrate changes from functors.[ch] and node.[ch] in tmp
+
+- make this file into an emacs ORG type file
