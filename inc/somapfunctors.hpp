@@ -48,5 +48,6 @@ public:
   }
 };
 
-
+// frivolous comment to practice git editing
+//
 #endif
