@@ -2,4 +2,4 @@
 
 - Read through source code and extend this list
 
-- integrate changes from functors.[ch] in tmp
+- integrate changes from functors.[ch] and node.[ch] in tmp
