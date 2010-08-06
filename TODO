@@ -1,3 +1,5 @@
 - Fix makefile so it actually compiles
 
 - Read through source code and extend this list
+
+- integrate changes from functors.[ch] in tmp
