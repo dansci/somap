@@ -3,16 +3,6 @@
 #include <somapnode.hpp>
 #include <cmath>
 
-// JARED: This is somewhat problematic-- The return type of the
-// correction and comparison functions isn't naturally going to be the
-// same (without our coercion).  But I need to keep them the same for
-// polymorphism.  We could make it a struct/pair with a member that
-// comparisons use, and another member for corrections.  Maybe there's
-// a less bloaty solution though?  Also, we'll need both functions to
-// take the full weights vector for the same (polymorphism) reason at
-// best-- we'll need a way to encode the distance for the correction
-// function without changing the number of arguments I think.  We
-// might be best off having 2 functor classes because of this mess.
 typedef double score;
 
 class somapFunctorBase {
@@ -48,6 +38,4 @@ public:
   }
 };
 
-// frivolous comment to practice git editing
-//
 #endif

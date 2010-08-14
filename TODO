@@ -1,10 +1,16 @@
 JARED:
-* TODO Fix makefile so it actually compiles
+* TODO Makefile
+  - [ ] fix it so that it actually compiles
 
 DANIEL:
 * TODO Functors:
-  - [ ] integrate changes from functors.[ch] and node.[ch] in tmp
+  - [X] integrate changes from functors.[ch] and node.[ch] in tmp
+  - [ ] take functor.c in tmp, and use similar things to form test
+    cases
   - [ ] make two functor templates, one for correction and one for
 	scoring.  
+  - [ ] go through somapfunctors.cpp and look at what Jared wrote.
+	Think about if any of it will have to change given the two functor
+	classes. 
 * TODO Nodes:
-  - [ ] give CORRECT the distance
+  - [ ] give CORRECT the distance as an argument
