@@ -1,7 +1,10 @@
-- Fix makefile so it actually compiles
+JARED:
+* TODO Fix makefile so it actually compiles
 
-- Read through source code and extend this list
-
-- integrate changes from functors.[ch] and node.[ch] in tmp
-
-- make this file into an emacs ORG type file
+DANIEL:
+* TODO Functors:
+  - [ ] integrate changes from functors.[ch] and node.[ch] in tmp
+  - [ ] make two functor templates, one for correction and one for
+	scoring.  
+* TODO Nodes:
+  - [ ] give CORRECT the distance
