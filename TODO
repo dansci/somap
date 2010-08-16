@@ -2,7 +2,7 @@ JARED:
 * TODO Makefile
   - [ ] fix it so that it actually compiles
 
-	DANIEL:
+DANIEL:
 * TODO Functors:
   - [X] integrate changes from functors.[ch] and node.[ch] in tmp
   - [ ] take functor.c in tmp, and use similar things to form test
@@ -13,6 +13,7 @@ JARED:
 	Think about if any of it will have to change given the two functor
 	classes. 
   - [ ] See if you can write a "specifics" file to do e.g. comparison
-	of RGB data.
+        of RGB data.  And make a way to set all the node members to
+        use these functions seamlessly.
 * TODO Nodes:
   - [X] give CORRECT the distance as an argument

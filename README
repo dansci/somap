@@ -1,4 +1,5 @@
 NOTES:
 
 I'm thinking we should have a file specifically detailing how the
-weights "vector" is comprised, and how to score it etc.
+weights "vector" is comprised, and how to score it etc.  I added a
+"usr" directory under "src" to hold all these things.
