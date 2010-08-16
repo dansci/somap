@@ -17,9 +17,8 @@ public:
   static int idGen;
   somapnode(int len, xypair pos, somapFunctorBase *comp, 
 	    somapFunctorBase *corr);
-  // FIXME:  we need to pass the distance to CORRECT somehow.
-  score correct(weights);
-  score compare(weights);
+  score correct(somapnode);
+  score compare(somapnode);
   void setWeight(weights);
   weights getWeight();
   xypair getPosition();
@@ -29,8 +28,8 @@ private:
   const int nodeID;
   weights dataStore;
   xypair position;
-  somapFunctorBase *corrector;
-  somapFunctorBase *comparator;
+  somapCorrFunctorBase *corrector;
+  somapCompFunctorBase *comparator;
 };
 
 int somapnode::totalNodes = 0;
